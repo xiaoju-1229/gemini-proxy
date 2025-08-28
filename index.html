@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gemini Proxy Test</title>
+</head>
+<body>
+    <input id="prompt" type="text">
+    <button onclick="callGemini()">发送</button>
+    <div id="result"></div>
+
+    <script>
+    async function callGemini() {
+        const prompt = document.getElementById('prompt').value;
+        const response = await fetch('/v1/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            })
+        });
+        const data = await response.json();
+        document.getElementById('result').innerText = 
+            data.candidates[0].content.parts[0].text;
+    }
+    </script>
+</body>
+</html>
