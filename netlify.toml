@@ -3,4 +3,4 @@
   to = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
   status = 200
   force = true
-  headers = {Authorization = "Bearer YOUR_GOOGLE_API_KEY"}
+  headers = {Authorization = "Bearer ${GOOGLE_API_KEY}"}
