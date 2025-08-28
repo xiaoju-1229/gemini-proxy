@@ -3,3 +3,9 @@
   to = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GOOGLE_API_KEY}"
   status = 200
   force = true
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "POST, GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
