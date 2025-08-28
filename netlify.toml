@@ -1,6 +1,5 @@
 [[redirects]]
   from = "/v1/chat"
-  to = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+  to = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GOOGLE_API_KEY}"
   status = 200
   force = true
-  headers = {Authorization = "Bearer ${GOOGLE_API_KEY}"}
