@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Gemini Proxy Test</title>
-</head>
 <body>
     <input id="prompt" type="text">
     <button onclick="callGemini()">发送</button>
@@ -11,18 +8,42 @@
     <script>
     async function callGemini() {
         const prompt = document.getElementById('prompt').value;
-        const response = await fetch('/v1/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
-            })
-        });
-        const data = await response.json();
-        document.getElementById('result').innerText = 
-            data.candidates[0].content.parts[0].text;
+        const resultDiv = document.getElementById('result');
+
+        try {
+            const response = await fetch('/v1/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            const data = await response.json();
+            
+            // 安全获取响应
+            const result = data.candidates && 
+                           data.candidates[0] && 
+                           data.candidates[0].content && 
+                           data.candidates[0].content.parts && 
+                           data.candidates[0].content.parts[0] ? 
+                           data.candidates[0].content.parts[0].text : 
+                           '未获得有效响应';
+
+            resultDiv.innerHTML = result;
+        } catch (error) {
+            console.error('调用出错:', error);
+            resultDiv.innerHTML = `发生错误: ${error.message}`;
+        }
     }
     </script>
 </body>
